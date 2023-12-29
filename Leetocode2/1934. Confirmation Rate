@@ -1,0 +1,41 @@
+Question:
+
+
+
+
+Solution:
+
+
+Step 1:
+
+SELECT s.user_id, c.action
+FROM Signups AS s
+LEFT JOIN Confirmations AS c
+ON s.user_id=c.user_id;
+
+| user_id | action    |
+| ------- | --------- |
+| 3       | timeout   |
+| 3       | timeout   |
+| 7       | confirmed |
+| 7       | confirmed |
+| 7       | confirmed |
+| 2       | timeout   |
+| 2       | confirmed |
+| 6       | null      |
+
+
+Step2:
+
+SELECT s.user_id, COUNT(CASE WHEN c.action='confirmed' THEN 1 ELSE NULL END ) AS confirmation_rate
+FROM Signups AS s
+LEFT JOIN Confirmations AS c
+ON s.user_id=c.user_id
+GROUP BY s.user_id;
+
+| user_id | confirmation_rate |
+| ------- | ----------------- |
+| 3       | 0                 |
+| 7       | 3                 |
+| 2       | 1                 |
+| 6       | 0                 |
